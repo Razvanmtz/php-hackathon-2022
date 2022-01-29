@@ -21,6 +21,7 @@ In this section, please provide a brief overview of the design of your applicati
 For each of the following functionalities, please tick the box if you implemented it and describe its input and output in your application:
 
 [x] Brew coffee \
+[x] Brew another coffee \
 [ ] Create programme \
 [ ] Delete programme \
 [ ] Book a programme 
