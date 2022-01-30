@@ -15,17 +15,20 @@ You have estimated it takes 4 weeks to build this solution. You have 3 days. Goo
 ### Data and Domain model
 In this section, please describe the main entities you managed to identify, the relationships between them and how you mapped them in the database.
 
-We have 3 main entities: Programmes, Users and Rooms.
-Relationships:
-Each individual programme <strong>has to be</strong> linked to one single room and <strong>can be</strong> linked to as many users as it's participant limit allows.
-Each individual user can be linked to as many programmes as needed.
-Each room can be linked to as many programmes as needed.
+<strong>We have 3 main entities:</strong> Programmes, Users and Rooms.
 
-For the Database we have 4 separate tables:
-1. Programmes: This contains all individual programmes on separate rows with the following columns: id, type, start_date, end_date, participant_limit, room_number
-2. Rooms: This contains all individual rooms on separate rows with the following columns: id, allowed_types
-3. Users: This contains all individual users on separate rows with the following columns: id, created_on
-4. Registrations: This contains all individual registrations on separate rows with the following columns: id, user_id, programme_id, registration_date
+<strong>Relationships:</strong> <ul>
+<li>Each individual programme <strong>has to be</strong> linked to one single room and <strong>can be</strong> linked to as many users as it's participant limit allows. </li>
+<li>Each individual user can be linked to as many programmes as needed. </li>
+<li>Each room can be linked to as many programmes as needed. </li>
+  </ul>
+
+<strong>For the Database we have 4 separate tables:</strong><ol>
+<li>Programmes: This contains all individual programmes on separate rows with the following columns: id, type, start_date, end_date, participant_limit, room_number</li>
+<li>Rooms: This contains all individual rooms on separate rows with the following columns: id, allowed_types</li>
+<li>Users: This contains all individual users on separate rows with the following columns: id, created_on</li>
+<li>Registrations: This contains all individual registrations on separate rows with the following columns: id, user_id, programme_id, registration_date</li>
+  </ol>
 
 ### Application architecture
 In this section, please provide a brief overview of the design of your application and highlight the main components and the interaction between them.
@@ -38,54 +41,54 @@ For example: to create a new programme the Programme class is used to insert the
 ##### Functionalities
 For each of the following functionalities, please tick the box if you implemented it and describe its input and output in your application:
 
-[x] Brew coffee \
+<strong>[x] Brew coffee</strong> \
 Input: Beans \
-Output: Coffee \
+Output: Coffee 
 
-[x] Drink coffee \
+<strong>[x] Drink coffee</strong> \
 Input: Coffee \
-Output: Code \
+Output: Code 
 
-[x] Create programme functionality \
+<strong>[x] Create programme functionality</strong> \
 Input: Array of data for the new programme with the parameters: 'programme_type', 'start_date', 'end_date', 'participant_limit', 'room_number'. \
-Output: Either an error message or the ID of the new programme on success. \
+Output: Either an error message or the ID of the new programme on success. 
 
-[x] Delete programme functionality \
+<strong>[x] Delete programme functionality</strong> \
 Input: The ID of the programme we want to delete. \
-Output: Either an error message or the ID of the deleted programme on success. \
+Output: Either an error message or the ID of the deleted programme on success. 
 
-[x] Register user to programme functionality 
+<strong>[x] Register user to programme functionality</strong> \
 Input: The ID of the user (CNP) and the ID of the programme we want to register them to. \
-Output: Either an error message or the ID of the user and the ID of the programme on success. \
+Output: Either an error message or the ID of the user and the ID of the programme on success. 
 
-Note: All outputs are JSON objects. \
+<strong>Note:</strong> All outputs are JSON objects. 
 
 ##### Business rules
 Please highlight all the validations and mechanisms you identified as necessary in order to avoid inconsistent states and apply the business logic in your application.
 
-The first check made is for the authentication code sent through the header to validate the request came from an admin.
+The first check made is for the authentication code sent through the header to validate the request came from an admin. \
 The second check will validate that the request is the expected one, which is a POST request.
 
 After these general validations, each request will go through diferent validations depending on the action performed:
-
-1. Create Programme:
-Date validation (the start date must be before the end date)
-General value validation (all expected values must be sent, no value should be empty)
-Room exists (make sure the requested room actually exists before creating the programme)
-Room allows programme type (make sure the programme type is one of the available ones for the requested room)
-Room already booked (make sure there is no other programme running in the request room during the same timeslot)
-
-2. Delete Programme:
-Programme exists (make sure the programme actually exists before trying to remove it)
-This action will also delete all registrations linked to this programme.
-
-3. Register User:
-Programme exists (make sure the programme actually exists before trying to register users to it)
-Programme not full (make sure the programme participant limit has not been reached)
-User ID (CNP) is valid (make sure the correct format is used and the CNP is a possible valid CNP)
-User not already registered (make sure the user is not already registered to a different programme in the same timeslot)
-This action will search the Users table for an existing user by ID (CNP), if no user found it will add it to the table and then register the user to the programme.
-
+<ol><li>
+<strong>Create Programme:</strong> <ul>
+<li>Date validation (the start date must be before the end date) </li>
+<li>General value validation (all expected values must be sent, no value should be empty) </li>
+<li>Room exists (make sure the requested room actually exists before creating the programme) </li>
+<li>Room allows programme type (make sure the programme type is one of the available ones for the requested room) </li>
+<li>Room already booked (make sure there is no other programme running in the request room during the same timeslot)</li>
+  </ul></li><li>
+<strong>Delete Programme:</strong><ul>
+<li>Programme exists (make sure the programme actually exists before trying to remove it)</li>
+<li>This action will also delete all registrations linked to this programme.</li>
+  </ul></li><li>
+  <strong>Register User:</strong><ul>
+<li>Programme exists (make sure the programme actually exists before trying to register users to it)</li>
+<li>Programme not full (make sure the programme participant limit has not been reached)</li>
+<li>User ID (CNP) is valid (make sure the correct format is used and the CNP is a possible valid CNP)</li>
+<li>User not already registered (make sure the user is not already registered to a different programme in the same timeslot)</li>
+<li>This action will search the Users table for an existing user by ID (CNP), if no user found it will add it to the table and then register the user to the programme.</li>
+  </ul></li></ol>
 
 ##### 3rd party libraries (if applicable)
 Please give a brief review of the 3rd party libraries you used and how/ why you've integrated them into your project.
@@ -108,29 +111,29 @@ I used the testing scripts available in the /tests folder to test and debug all 
 ## Feedback
 In this section, please let us know what is your opinion about this experience and how we can improve it:
 
-1. Have you ever been involved in a similar experience? If so, how was this one different?
+1. Have you ever been involved in a similar experience? If so, how was this one different? \
 Nope.
 
-2. Do you think this type of selection process is suitable for you?
+2. Do you think this type of selection process is suitable for you? \
 Yes, it's much more interesting than a multiple choice technical test.
 
-3. What's your opinion about the complexity of the requirements?
+3. What's your opinion about the complexity of the requirements? \
 The complexity is adequate for the alloted time.
 
-4. What did you enjoy the most?
+4. What did you enjoy the most? \
 When everything worked together without any issues.
 
-5. What was the most challenging part of this anti hackathon?
+5. What was the most challenging part of this anti hackathon? \
 Making the perfect CNP validation (which it isn't but it gets the job done).
 
-6. Do you think the time limit was suitable for the requirements?
+6. Do you think the time limit was suitable for the requirements? \
 Definitely.
 
-7. Did you find the resources you were sent on your email useful?
+7. Did you find the resources you were sent on your email useful? \
 Yes.
 
-8. Is there anything you would like to improve to your current implementation?
+8. Is there anything you would like to improve to your current implementation? \
 Cleaning up the code a bit and maybe adding more functionality (ex: instructors for programmes).
 
-9. What would you change regarding this anti hackathon?
+9. What would you change regarding this anti hackathon? \
 Nothing.
