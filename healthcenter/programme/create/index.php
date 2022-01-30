@@ -51,7 +51,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		//Check if date not already booked.
 		if($programme->check_room_availability()){
 			//Add new programme to programmes table.
-			$programme->create();
+			$new_programme_id = $programme->create();
+
+			echo json_encode(array('Success' => 'Succesfully added new programme', 'programme_id'=>$new_programme_id));
 		}
 		else{
 			echo "Error: This room is already booked for this timeslot.";

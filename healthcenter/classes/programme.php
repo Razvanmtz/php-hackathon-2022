@@ -7,6 +7,7 @@ class Programme {
 	public $end_date;
 	public $participant_limit;
 	public $room_number;
+	public $id;
 
 	public function __construct($type = '', $start_date = '', $end_date = '', $participant_limit = 0, $room_number = 0){
 		$this->type = $type;
@@ -40,6 +41,8 @@ class Programme {
 		$db_conn = mysqli_connect('localhost', 'root', '123456');
 
 		mysqli_query($db_conn, $sql);
+
+		return mysqli_insert_id($db_conn);
 	}
 
 	public function get($id){
@@ -50,6 +53,11 @@ class Programme {
 		$result = mysqli_query($db_conn, $sql);
 
 		if(mysqli_num_rows($result) > 0){
+			while($row = mysqli_fetch_assoc($result)){
+				foreach($row as $key=>$value){
+					$this->$key = $value;
+				}
+			}
 			return true;
 		}
 
