@@ -22,9 +22,10 @@ For each of the following functionalities, please tick the box if you implemente
 
 [x] Brew coffee \
 [x] Brew another coffee \
-[ ] Create programme \
-[ ] Delete programme \
-[ ] Book a programme 
+[x] Set up MySQL DB \
+[x] Create programme functionality \
+[x] Delete programme functionality \
+[ ] Register user to programme functionality 
 
 ##### Business rules
 Please highlight all the validations and mechanisms you identified as necessary in order to avoid inconsistent states and apply the business logic in your application.
