@@ -17,57 +17,51 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 	//Check if dates are ok.
 	if($programme->start_date >= $programme->end_date){
-		echo 'Error: Dates are invalid';
+		echo json_encode(array('Error' => 'Dates are invalid'));
 		die();
 	}
 
-
 	//Check if any values are missing.
 	foreach($programme as $key=>$value){
-		if(empty($value)){
-			echo $key.' has no value!';
+		if(empty($value) && $key != 'id'){
+			echo json_encode(array('Error' => $key." has no value!"));
 			die();
 		}
 	}
-
-	echo '<pre>';
-	print_r($programme);
-	echo '</pre>';
 
 	//Get the room for the new programme.
 	require_once($_SERVER['DOCUMENT_ROOT'].'/classes/room.php');
 
 	$room = new Room($programme->room_number);
 
-	$room->get_allowed_types();
-
-	echo '<pre>';
-	print_r($room);
-	echo '</pre>';
+	if($room->get_allowed_types() === false){
+		echo json_encode(array('Error' => 'Room number '.$programme->room_number.' not found'));
+		die();
+	}
 
 	//Check if programme type is available in the room.
 	if(in_array($programme->type, $room->allowed_types)){
 
 		//Check if date not already booked.
-		if($programme->check_room_availability()){
+		if($programme->is_room_available()){
 			//Add new programme to programmes table.
 			$new_programme_id = $programme->create();
 
 			echo json_encode(array('Success' => 'Succesfully added new programme', 'programme_id'=>$new_programme_id));
 		}
 		else{
-			echo "Error: This room is already booked for this timeslot.";
+			echo json_encode(array('Error' => "This room is already booked for this timeslot."));
 			die();
 		}	
 	}
 	else{
-	    echo "Error: This room doesn't allow this type of programme.";
+		echo json_encode(array('Error' => "This room doesn't allow this type of programme."));
 	    die();
 	}
 
 }
 else{
-	echo "Error: Expecting POST request.";
+	echo json_encode(array('Error' => "Expecting POST request."));
 	die();
 }
 

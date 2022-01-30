@@ -13,14 +13,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	//Check if programme exists.
 	if($programme->get($programme_id)){
 		$programme->delete($programme_id);
+		echo json_encode(array('Success' => 'Succesfully deleted the programme and all linked registrations', 'programme_id'=>$new_programme_id));
 	}
 	else{
-		echo "Error: No programme with id = ".$programme_id." found";
+		echo json_encode(array('Error' => 'No programme with id = '.$programme_id.' found'));
+		die();
 	}
 
 }
 else{
-	echo "Error: Expecting POST request.";
+	echo json_encode(array('Error' => "Expecting POST request."));
 	die();
 }
 

@@ -22,8 +22,11 @@ class Room {
 			while($row = mysqli_fetch_assoc($result)){
 
 				$this->allowed_types = explode(', ', $row['allowed_types']);
-
 			}
+			return true;
+		}
+		else{
+			return false;
 		}
 	}
 }

@@ -35,10 +35,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$programme = new Programme();
 
 	if($programme->get($programme_id) === false){
-		echo "Error: No programme with id = ".$programme_id." found";
+		echo json_encode(array('Error' => "No programme (id=".$programme_id.") found"));
 		die();
 	}
 	else{
+
+		//Check if programme is full
+
+		if($programme->is_programme_full()){
+			echo json_encode(array('Error' => "Programme (id=".$programme_id.") is at full capacity"));
+			die();
+		}
+
+
 		//Check if user exists or if new user, then register user to programme.
 		require_once($_SERVER['DOCUMENT_ROOT'].'/classes/user.php');
 
@@ -46,14 +55,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 		if($user->user_exists()){
 
-			//Check if user is not already registered to another curse in the same timeslot.
+			//Check if user is not already registered to another course in the same timeslot.
 
 			if($user->is_user_already_registered_timeslot($programme)){
-				echo "Error: User is already registered to a programme in the same timeslot.";
+				echo json_encode(array('Error' => "User is already registered to a programme in the same timeslot."));
 				die();
 			}
 
 			$user->register_user_to_programme($programme->id);
+
+			echo json_encode(array('Success' => 'Succesfully registered user to programme', 'user_id'=>$user->id, 'programme_id'=>$programme->id));
 		}
 		else{
 			//Check if valid CNP
@@ -61,20 +72,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 				//Add user and register him to programme.
 				$user->add();
-				$user->register_user_to_programme($programme_id);
+				$user->register_user_to_programme($programme->id);
 
-				echo json_encode(array('Success' => 'Succesfully registered user to programme', 'user_id'=>$user->id, 'programme_id'=>$programme_id));
+				echo json_encode(array('Success' => 'Succesfully registered user to programme', 'user_id'=>$user->id, 'programme_id'=>$programme->id));
 				
 			}
 			else{
-				echo "Error: Invalid user_id (CNP).";
+				echo json_encode(array('Error' => "Invalid user_id (CNP)."));
 				die();
 			}
 		}
 	}
 }
 else{
-	echo "Error: Expecting POST request.";
+	echo json_encode(array('Error' => "Expecting POST request."));
 	die();
 }
 

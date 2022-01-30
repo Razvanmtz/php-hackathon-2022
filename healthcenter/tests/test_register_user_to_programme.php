@@ -12,8 +12,8 @@
 	);
 
     $post_data = array(
-    	'user_id' => 2931023055069,
-    	'programme_id' => 1,
+    	'user_id' => 1050712055082,
+    	'programme_id' => 4,
     );
 
     $curl = curl_init();

@@ -6,7 +6,7 @@ $allowed_users = array(
 );
 
 if(!in_array($_SERVER['HTTP_X_AUTHORIZATION'], $allowed_users)){
- 	echo 'Error: Wrong authorization code';
+ 	echo json_encode(array('Error' => 'Wrong authorization code'));
  	die();
 }
 

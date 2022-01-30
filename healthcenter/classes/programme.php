@@ -17,7 +17,7 @@ class Programme {
         $this->room_number = $room_number;
     }
 
-	public function check_room_availability(){
+	public function is_room_available(){
 
 		$sql = 'SELECT id FROM programme_api.programmes
 		WHERE ( "'.$this->start_date.'" <= start_date AND "'.$this->end_date.'" >= start_date )
@@ -66,14 +66,38 @@ class Programme {
 
 	public function delete($id){
 
-		$sql = 'DELETE FROM programme_api.programmes WHERE id='.$id;
+		$sql = 'DELETE FROM programme_api.registrations WHERE programme_id='.$id;
 
 		$db_conn = mysqli_connect('localhost', 'root', '123456');
 
 		mysqli_query($db_conn, $sql);
 
+		$sql = 'DELETE FROM programme_api.programmes WHERE id='.$id;
+
+		mysqli_query($db_conn, $sql);
+
 	}
 
+	public function is_programme_full(){
+
+		$sql = 'SELECT p.participant_limit, count(r.id) as "registrations" FROM programme_api.programmes p INNER JOIN programme_api.registrations r on r.programme_id=p.id WHERE p.id='.$this->id;
+
+		$db_conn = mysqli_connect('localhost', 'root', '123456');
+
+		$result = mysqli_query($db_conn, $sql);
+
+		if(mysqli_num_rows($result) > 0){
+			while($row = mysqli_fetch_assoc($result)){
+				foreach($row as $key=>$value){
+					if($row['participant_limit'] <= $row['registrations']){
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 }
 
 

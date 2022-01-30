@@ -31,7 +31,7 @@
 
     curl_close($curl);
 
-    echo $result;
+    print_r(json_decode($result));
 
 
 	exit;

@@ -6,8 +6,8 @@
 	//URL
     $url = 'http://localhost/programme/create';
 
-    $start_date = '09-01-2021 10:00';
-    $end_date = '10-01-2021 15:00';
+    $start_date = '11-02-2022 10:00';
+    $end_date = '11-02-2022 11:00';
 
 
     $headers = array(
@@ -15,11 +15,11 @@
 	);
 
     $post_data = array(
-    	'programme_type' => 'Pilates',
+    	'programme_type' => 'Yoga',
     	'start_date' => strtotime($start_date),
     	'end_date' => strtotime($end_date),
-    	'participant_limit' => 50,
-    	'room_number' => 1,
+    	'participant_limit' => 2,
+    	'room_number' => 2,
     );
 
     $curl = curl_init();
@@ -38,7 +38,7 @@
 
     curl_close($curl);
 
-    echo $result;
+    print_r(json_decode($result));
 
 
 	exit;
