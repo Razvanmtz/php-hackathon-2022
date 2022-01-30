@@ -69,6 +69,4 @@ else{
 	die();
 }
 
-//INSERT INTO programme_api.rooms (allowed_types) VALUES ("Pilates, Test Programme, Yoga")
-
 ?>

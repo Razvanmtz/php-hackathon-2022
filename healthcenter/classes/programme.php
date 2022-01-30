@@ -42,6 +42,30 @@ class Programme {
 		mysqli_query($db_conn, $sql);
 	}
 
+	public function get($id){
+		$sql = 'SELECT * FROM programme_api.programmes WHERE id='.$id;
+
+		$db_conn = mysqli_connect('localhost', 'root', '123456');
+
+		$result = mysqli_query($db_conn, $sql);
+
+		if(mysqli_num_rows($result) > 0){
+			return true;
+		}
+
+		return false;
+	}
+
+	public function delete($id){
+
+		$sql = 'DELETE FROM programme_api.programmes WHERE id='.$id;
+
+		$db_conn = mysqli_connect('localhost', 'root', '123456');
+
+		mysqli_query($db_conn, $sql);
+
+	}
+
 }
 
 
